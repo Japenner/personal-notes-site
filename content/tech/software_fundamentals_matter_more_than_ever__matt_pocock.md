@@ -7,6 +7,7 @@ processed_at: "2026-05-05T15:41:34Z"
 provider: "anthropic"
 model: "claude-sonnet-4-6"
 template: "technical_extraction"
+tags: [video-notes, tech, software-engineering, ai-coding, fundamentals]
 ---
 
 # 'Software Fundamentals Matter More Than Ever' — Matt Pocock

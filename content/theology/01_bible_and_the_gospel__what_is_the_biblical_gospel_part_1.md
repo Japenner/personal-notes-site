@@ -7,6 +7,7 @@ processed_at: "2026-05-18T01:41:19Z"
 provider: "anthropic"
 model: "claude-sonnet-4-6"
 template: "learning"
+tags: [video-notes, theology, gospel, biblical-studies, soteriology]
 ---
 
 # Bible and the Gospel | What is the Biblical Gospel? (Part 1)

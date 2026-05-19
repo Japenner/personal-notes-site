@@ -7,9 +7,8 @@ processed_at: "2026-05-12T16:57:32Z"
 provider: "anthropic"
 model: "claude-sonnet-4-6"
 template: "contextual"
+tags: [video-notes, theology, eschatology, hell, doctrine]
 ---
-
-# Hellgate: The Christian Debate We're Afraid to Have | The Kirk Cameron Show Ep 102
 
 ## Hellgate: A Round Table Analysis on the Nature of Hell
 

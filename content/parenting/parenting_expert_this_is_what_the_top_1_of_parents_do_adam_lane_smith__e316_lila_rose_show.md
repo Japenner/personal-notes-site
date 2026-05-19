@@ -7,6 +7,7 @@ processed_at: "2026-05-18T00:53:01Z"
 provider: "anthropic"
 model: "claude-sonnet-4-6"
 template: "contextual"
+tags: [video-notes, parenting, attachment-theory, family-structure, motherhood]
 ---
 
 # Parenting Expert: This Is What The Top 1% of Parents Do (Adam Lane Smith) | E316 Lila Rose Show

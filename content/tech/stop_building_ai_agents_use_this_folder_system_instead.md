@@ -7,6 +7,7 @@ processed_at: "2026-05-18T00:56:25Z"
 provider: "anthropic"
 model: "claude-sonnet-4-6"
 template: "technical_extraction"
+tags: [video-notes, tech, ai-workflow, knowledge-management, ai-coding]
 ---
 
 # Stop Building AI Agents. Use This Folder System Instead

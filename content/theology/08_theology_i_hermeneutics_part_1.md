@@ -7,6 +7,7 @@ processed_at: "2026-05-13T16:03:19Z"
 provider: "anthropic"
 model: "claude-sonnet-4-6"
 template: "learning"
+tags: [video-notes, theology, hermeneutics, biblical-interpretation, scripture]
 ---
 
 # Theology I: Hermeneutics (part 1)

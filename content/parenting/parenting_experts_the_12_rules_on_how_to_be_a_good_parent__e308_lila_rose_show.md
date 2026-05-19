@@ -6,6 +6,7 @@ transcript_file: "parenting_experts_the_12_rules_on_how_to_be_a_good_parent__e30
 processed_at: "2026-04-21T12:49:25Z"
 model: "gpt-4o-mini"
 template: "evidence_aligned_prompt.md"
+tags: [video-notes, parenting, child-development, faith-parenting]
 ---
 
 # Parenting Experts: The 12 Rules On How To Be A Good Parent | E308 Lila Rose Show

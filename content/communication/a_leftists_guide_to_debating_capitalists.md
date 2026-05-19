@@ -7,6 +7,7 @@ processed_at: "2026-05-11T14:26:28Z"
 provider: "anthropic"
 model: "claude-sonnet-4-6"
 template: "contextual"
+tags: [video-notes, communication, rhetoric, argumentation, political-theory]
 ---
 
 # A Leftist's Guide to Debating Capitalists
