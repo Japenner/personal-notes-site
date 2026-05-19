@@ -9,7 +9,7 @@ import * as Plugin from "./quartz/plugins"
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "Jacob's Notes",
-    pageTitleSuffix: " | Jacob's Notes",
+    pageTitleSuffix: " | Notes",
     enableSPA: true,
     enablePopovers: true,
     analytics: {
@@ -71,7 +71,6 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.Latex({ renderEngine: "katex" }),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [
