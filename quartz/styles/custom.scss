@@ -20,9 +20,7 @@
   --exp-surface-2: rgba(250, 244, 228, 0.85);
   --exp-border: rgba(138, 109, 31, 0.3);
   --exp-border-2: rgba(138, 109, 31, 0.55);
-  --exp-title-glow:
-    0 0 40px rgba(170, 134, 40, 0.25),
-    0 0 90px rgba(170, 134, 40, 0.1);
+  --exp-title-glow: 0 0 40px rgba(170, 134, 40, 0.25), 0 0 90px rgba(170, 134, 40, 0.1);
 }
 
 // Dark (obsidian + gold) tokens
@@ -37,9 +35,7 @@
   --exp-surface-2: rgba(22, 18, 32, 0.8);
   --exp-border: rgba(212, 176, 80, 0.28);
   --exp-border-2: rgba(212, 176, 80, 0.6);
-  --exp-title-glow:
-    0 0 50px rgba(212, 176, 80, 0.45),
-    0 0 120px rgba(212, 176, 80, 0.18);
+  --exp-title-glow: 0 0 50px rgba(212, 176, 80, 0.45), 0 0 120px rgba(212, 176, 80, 0.18);
 }
 
 // ── Painterly background wash ──────────────────────────────────
@@ -58,6 +54,14 @@
     radial-gradient(ellipse 50% 35% at 90% 100%, rgba(15, 125, 116, 0.06), transparent),
     var(--light);
   background-attachment: fixed;
+}
+
+// fixed attachment is unsupported on iOS Safari and forces full repaints on scroll
+@media all and ($mobile) {
+  :root[saved-theme="dark"] body,
+  :root:not([saved-theme="dark"]) body {
+    background-attachment: scroll;
+  }
 }
 
 // ── Color roles ────────────────────────────────────────────────
@@ -115,6 +119,12 @@ article {
   letter-spacing: 0.02em;
   text-shadow: var(--exp-title-glow);
 
+  // keep the masthead on one line in the mobile top bar
+  @media all and ($mobile) {
+    font-size: 1.3rem;
+    white-space: nowrap;
+  }
+
   a {
     color: var(--dark);
 
@@ -132,6 +142,11 @@ article {
   letter-spacing: 0.18em;
   text-transform: uppercase;
 
+  @media all and ($mobile) {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+  }
+
   a {
     color: var(--exp-gold);
     font-weight: 400;
@@ -141,7 +156,7 @@ article {
 // ── Article masthead ───────────────────────────────────────────
 .article-title {
   font-weight: 400;
-  font-size: 2.8rem;
+  font-size: clamp(1.9rem, 4vw + 1rem, 2.8rem);
   line-height: 1.05;
   letter-spacing: -0.01em;
   text-shadow: var(--exp-title-glow);
@@ -177,6 +192,11 @@ article h2 {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--exp-gold);
+
+  @media all and ($mobile) {
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+  }
 
   &::before,
   &::after {
@@ -301,6 +321,14 @@ button.toc-header h3,
 }
 
 // ── Explorer — keep nav neutral, gold only on hover ────────────
+// the off-canvas drawer's containing block (.sidebar.left) is inset by
+// #quartz-body's 1rem mobile padding, so -100vw leaves a sliver visible
+@media all and ($mobile) {
+  .explorer.collapsed > .explorer-content {
+    transform: translateX(calc(-100vw - 2rem));
+  }
+}
+
 .explorer {
   .folder-container div > a,
   .folder-container div > button span,
@@ -456,6 +484,25 @@ li.section-li > .section {
     justify-content: flex-start;
     margin-top: 0.35rem;
     padding-left: 0;
+  }
+
+  // stack date under title — the side column cramps titles on phones
+  @media all and ($mobile) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "desc"
+      "meta";
+
+    & > .meta {
+      margin: 0.15rem 0 0 0;
+    }
+  }
+}
+
+// stack graph and backlinks full-width instead of squeezing them side by side
+@media all and ($mobile) {
+  .page > #quartz-body .sidebar.right {
+    flex-direction: column;
   }
 }
 
