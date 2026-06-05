@@ -20,9 +20,7 @@
   --exp-surface-2: rgba(250, 244, 228, 0.85);
   --exp-border: rgba(138, 109, 31, 0.3);
   --exp-border-2: rgba(138, 109, 31, 0.55);
-  --exp-title-glow:
-    0 0 40px rgba(170, 134, 40, 0.25),
-    0 0 90px rgba(170, 134, 40, 0.1);
+  --exp-title-glow: 0 0 40px rgba(170, 134, 40, 0.25), 0 0 90px rgba(170, 134, 40, 0.1);
 }
 
 // Dark (obsidian + gold) tokens
@@ -37,9 +35,7 @@
   --exp-surface-2: rgba(22, 18, 32, 0.8);
   --exp-border: rgba(212, 176, 80, 0.28);
   --exp-border-2: rgba(212, 176, 80, 0.6);
-  --exp-title-glow:
-    0 0 50px rgba(212, 176, 80, 0.45),
-    0 0 120px rgba(212, 176, 80, 0.18);
+  --exp-title-glow: 0 0 50px rgba(212, 176, 80, 0.45), 0 0 120px rgba(212, 176, 80, 0.18);
 }
 
 // ── Painterly background wash ──────────────────────────────────
