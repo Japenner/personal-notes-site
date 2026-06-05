@@ -60,6 +60,14 @@
   background-attachment: fixed;
 }
 
+// fixed attachment is unsupported on iOS Safari and forces full repaints on scroll
+@media all and ($mobile) {
+  :root[saved-theme="dark"] body,
+  :root:not([saved-theme="dark"]) body {
+    background-attachment: scroll;
+  }
+}
+
 // ── Color roles ────────────────────────────────────────────────
 // gold = structure (masthead, labels, panel chrome)
 // teal = interactive (links, code, selection, checkboxes)
@@ -115,6 +123,12 @@ article {
   letter-spacing: 0.02em;
   text-shadow: var(--exp-title-glow);
 
+  // keep the masthead on one line in the mobile top bar
+  @media all and ($mobile) {
+    font-size: 1.3rem;
+    white-space: nowrap;
+  }
+
   a {
     color: var(--dark);
 
@@ -132,6 +146,11 @@ article {
   letter-spacing: 0.18em;
   text-transform: uppercase;
 
+  @media all and ($mobile) {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+  }
+
   a {
     color: var(--exp-gold);
     font-weight: 400;
@@ -141,7 +160,7 @@ article {
 // ── Article masthead ───────────────────────────────────────────
 .article-title {
   font-weight: 400;
-  font-size: 2.8rem;
+  font-size: clamp(1.9rem, 4vw + 1rem, 2.8rem);
   line-height: 1.05;
   letter-spacing: -0.01em;
   text-shadow: var(--exp-title-glow);
@@ -177,6 +196,11 @@ article h2 {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--exp-gold);
+
+  @media all and ($mobile) {
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+  }
 
   &::before,
   &::after {
@@ -301,6 +325,14 @@ button.toc-header h3,
 }
 
 // ── Explorer — keep nav neutral, gold only on hover ────────────
+// the off-canvas drawer's containing block (.sidebar.left) is inset by
+// #quartz-body's 1rem mobile padding, so -100vw leaves a sliver visible
+@media all and ($mobile) {
+  .explorer.collapsed > .explorer-content {
+    transform: translateX(calc(-100vw - 2rem));
+  }
+}
+
 .explorer {
   .folder-container div > a,
   .folder-container div > button span,
@@ -456,6 +488,25 @@ li.section-li > .section {
     justify-content: flex-start;
     margin-top: 0.35rem;
     padding-left: 0;
+  }
+
+  // stack date under title — the side column cramps titles on phones
+  @media all and ($mobile) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "desc"
+      "meta";
+
+    & > .meta {
+      margin: 0.15rem 0 0 0;
+    }
+  }
+}
+
+// stack graph and backlinks full-width instead of squeezing them side by side
+@media all and ($mobile) {
+  .page > #quartz-body .sidebar.right {
+    flex-direction: column;
   }
 }
 

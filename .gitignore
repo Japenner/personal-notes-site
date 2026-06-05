@@ -1,0 +1,12 @@
+.claude/settings.local.json
+.DS_Store
+.obsidian
+.quartz-cache
+.replit
+
+node_modules
+public
+prof
+tsconfig.tsbuildinfo
+private/
+replit.nix
