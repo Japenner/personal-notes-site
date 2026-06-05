@@ -1,3 +1,525 @@
 @use "./base.scss";
+@use "./variables.scss" as *;
 
-// put your custom CSS here!
+/* ================================================================
+   "Expedition" theme — obsidian + gold, Belle Époque, painterly dark
+   Palette lives in quartz.config.ts; this layer adds texture:
+   gradient wash, glowing serif masthead, section-label headings,
+   gold-bordered panels, notice-style callouts, badge tags.
+   ================================================================ */
+
+// Light (parchment) tokens — default, applies before the theme attribute is set
+:root {
+  --exp-gold: #8a6d1f;
+  --exp-gold-2: #6b500e;
+  --exp-gold-glow: rgba(170, 134, 40, 0.3);
+  --exp-crimson: #b02048;
+  --exp-teal: #0f7d74;
+  --exp-violet: #6a4ba8;
+  --exp-surface: rgba(255, 252, 242, 0.92);
+  --exp-surface-2: rgba(250, 244, 228, 0.85);
+  --exp-border: rgba(138, 109, 31, 0.3);
+  --exp-border-2: rgba(138, 109, 31, 0.55);
+  --exp-title-glow:
+    0 0 40px rgba(170, 134, 40, 0.25),
+    0 0 90px rgba(170, 134, 40, 0.1);
+}
+
+// Dark (obsidian + gold) tokens
+:root[saved-theme="dark"] {
+  --exp-gold: #d4b050;
+  --exp-gold-2: #f0d870;
+  --exp-gold-glow: rgba(212, 176, 80, 0.5);
+  --exp-crimson: #e03060;
+  --exp-teal: #30d0c4;
+  --exp-violet: #9870d8;
+  --exp-surface: rgba(16, 12, 24, 0.96);
+  --exp-surface-2: rgba(22, 18, 32, 0.8);
+  --exp-border: rgba(212, 176, 80, 0.28);
+  --exp-border-2: rgba(212, 176, 80, 0.6);
+  --exp-title-glow:
+    0 0 50px rgba(212, 176, 80, 0.45),
+    0 0 120px rgba(212, 176, 80, 0.18);
+}
+
+// ── Painterly background wash ──────────────────────────────────
+:root[saved-theme="dark"] body {
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%, rgba(120, 80, 160, 0.14), transparent),
+    radial-gradient(ellipse 55% 40% at 90% 5%, rgba(184, 48, 80, 0.1), transparent),
+    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(90, 186, 176, 0.08), transparent),
+    linear-gradient(180deg, #040306 0%, #060508 40%, #050407 100%);
+  background-attachment: fixed;
+}
+
+:root:not([saved-theme="dark"]) body {
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%, rgba(170, 134, 40, 0.08), transparent),
+    radial-gradient(ellipse 50% 35% at 90% 100%, rgba(15, 125, 116, 0.06), transparent),
+    var(--light);
+  background-attachment: fixed;
+}
+
+// ── Color roles ────────────────────────────────────────────────
+// gold = structure (masthead, labels, panel chrome)
+// teal = interactive (links, code, selection, checkboxes)
+// violet = metadata & connections (tags, backlinks)
+// crimson = semantic warnings only (danger callouts, broken links)
+a {
+  color: var(--exp-teal);
+
+  &:hover {
+    color: color-mix(in srgb, var(--exp-teal) 70%, var(--darkgray));
+  }
+
+  &.internal.broken {
+    color: var(--exp-crimson);
+  }
+
+  &.external {
+    color: var(--exp-gold);
+
+    &:hover {
+      color: var(--exp-gold-2);
+    }
+  }
+}
+
+::selection {
+  background: color-mix(in srgb, var(--exp-teal) 45%, transparent);
+}
+
+input[type="checkbox"]:checked {
+  border-color: var(--exp-teal);
+  background-color: var(--exp-teal);
+}
+
+.navigation-progress {
+  background: var(--exp-teal);
+}
+
+article {
+  ul > li::marker {
+    color: var(--exp-teal);
+  }
+
+  ol > li::marker {
+    color: var(--exp-gold);
+    font-family: var(--headerFont);
+  }
+}
+
+// ── Site title (left sidebar) ──────────────────────────────────
+.page-title {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-shadow: var(--exp-title-glow);
+
+  a {
+    color: var(--dark);
+
+    &:hover {
+      color: var(--dark);
+    }
+  }
+}
+
+// ── Breadcrumbs as expedition eyebrow ──────────────────────────
+.breadcrumb-container {
+  font-family: var(--headerFont);
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  a {
+    color: var(--exp-gold);
+    font-weight: 400;
+  }
+}
+
+// ── Article masthead ───────────────────────────────────────────
+.article-title {
+  font-weight: 400;
+  font-size: 2.8rem;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-shadow: var(--exp-title-glow);
+  position: relative;
+  padding-bottom: 1.1rem;
+  margin-bottom: 0.6rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 640px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      var(--exp-gold) 0%,
+      var(--exp-gold-glow) 40%,
+      transparent 100%
+    );
+  }
+}
+
+// ── Section-label headings ─────────────────────────────────────
+article h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--exp-gold);
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--exp-border);
+  }
+
+  &::before {
+    max-width: 2rem;
+  }
+
+  // keep the hover anchor from becoming a stretched flex rule
+  & > a[role="anchor"] {
+    flex: 0 0 auto;
+  }
+}
+
+h1,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+// ── Divider ────────────────────────────────────────────────────
+hr {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--exp-border) 30%,
+    var(--exp-border) 70%,
+    transparent
+  );
+}
+
+// ── Gold-bordered panels (sidebar components) ──────────────────
+.sidebar .toc,
+.sidebar .backlinks {
+  border: 1px solid var(--exp-border);
+  border-radius: 0.9rem;
+  background: var(--exp-surface-2);
+  padding: 1rem 1.1rem;
+  position: relative;
+
+  // decorative corner bracket
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-top: 1px solid var(--exp-border-2);
+    border-left: 1px solid var(--exp-border-2);
+    pointer-events: none;
+  }
+}
+
+// backlinks: violet aura
+.sidebar .backlinks {
+  border-color: color-mix(in srgb, var(--exp-violet) 30%, transparent);
+  background:
+    radial-gradient(
+      circle at 50% 130%,
+      color-mix(in srgb, var(--exp-violet) 14%, transparent),
+      transparent 65%
+    ),
+    var(--exp-surface-2);
+
+  &::after {
+    border-color: color-mix(in srgb, var(--exp-violet) 55%, transparent);
+  }
+
+  a {
+    color: var(--darkgray);
+
+    &:hover {
+      color: var(--exp-violet);
+    }
+  }
+}
+
+// graph: teal aura
+.graph > .graph-outer {
+  border-color: color-mix(in srgb, var(--exp-teal) 28%, transparent);
+  border-radius: 0.9rem;
+  background:
+    radial-gradient(
+      circle at 50% 130%,
+      color-mix(in srgb, var(--exp-teal) 10%, transparent),
+      transparent 65%
+    ),
+    var(--exp-surface-2);
+  box-shadow: 0 0 32px color-mix(in srgb, var(--exp-teal) 6%, transparent);
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--exp-teal) 50%, transparent);
+  }
+}
+
+.backlinks > h3,
+button.toc-header h3,
+.graph > h3 {
+  font-style: italic;
+  font-size: 0.85rem !important;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--exp-gold);
+}
+
+.backlinks > h3 {
+  color: var(--exp-violet);
+}
+
+.graph > h3 {
+  color: var(--exp-teal);
+}
+
+// ── Explorer — keep nav neutral, gold only on hover ────────────
+.explorer {
+  .folder-container div > a,
+  .folder-container div > button span,
+  .folder-icon {
+    color: var(--darkgray);
+  }
+
+  .folder-container div > a:hover,
+  .folder-icon:hover {
+    color: var(--exp-teal);
+  }
+
+  // one line per note title, ellipsis on overflow
+  .explorer-content li > a {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 160ms ease;
+
+    &:hover {
+      color: var(--exp-teal);
+    }
+  }
+}
+
+// one line per TOC entry, ellipsis on overflow (full text via title tooltip)
+ul.toc-content > li > a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover {
+    color: var(--exp-teal);
+    opacity: 1;
+  }
+}
+
+// ── Search ─────────────────────────────────────────────────────
+.search > .search-button {
+  background: var(--exp-surface-2);
+  border: 1px solid var(--exp-border);
+  border-radius: 0.65rem;
+  transition: border-color 160ms ease;
+
+  &:hover {
+    border-color: var(--exp-border-2);
+  }
+}
+
+// ── Callouts as field notices ──────────────────────────────────
+.callout {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--color);
+  border-radius: 0.65rem;
+
+  &[data-callout] {
+    --color: var(--gray);
+    --border: color-mix(in srgb, var(--gray) 30%, transparent);
+    --bg: color-mix(in srgb, var(--gray) 8%, transparent);
+  }
+
+  &[data-callout="warning"],
+  &[data-callout="question"],
+  &[data-callout="important"] {
+    --color: var(--exp-gold);
+    --border: color-mix(in srgb, var(--exp-gold) 35%, transparent);
+    --bg: color-mix(in srgb, var(--exp-gold) 11%, transparent);
+  }
+
+  &[data-callout="tip"],
+  &[data-callout="success"],
+  &[data-callout="info"],
+  &[data-callout="todo"] {
+    --color: var(--exp-teal);
+    --border: color-mix(in srgb, var(--exp-teal) 35%, transparent);
+    --bg: color-mix(in srgb, var(--exp-teal) 10%, transparent);
+  }
+
+  &[data-callout="danger"],
+  &[data-callout="failure"],
+  &[data-callout="bug"],
+  &[data-callout="error"] {
+    --color: var(--exp-crimson);
+    --border: color-mix(in srgb, var(--exp-crimson) 35%, transparent);
+    --bg: color-mix(in srgb, var(--exp-crimson) 10%, transparent);
+  }
+
+  &[data-callout="example"],
+  &[data-callout="quote"] {
+    --color: var(--exp-violet);
+    --border: color-mix(in srgb, var(--exp-violet) 35%, transparent);
+    --bg: color-mix(in srgb, var(--exp-violet) 10%, transparent);
+  }
+}
+
+// ── Inline code ────────────────────────────────────────────────
+code {
+  color: var(--exp-teal);
+  background: color-mix(in srgb, var(--exp-teal) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--exp-teal) 18%, transparent);
+  padding: 0.05rem 0.25rem;
+}
+
+pre > code {
+  border: none;
+}
+
+pre {
+  border-color: var(--exp-border);
+  border-radius: 0.65rem;
+  background: var(--exp-surface-2);
+}
+
+// ── Tags as violet badges ──────────────────────────────────────
+a.internal.tag-link {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--exp-violet) 50%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--exp-violet) 14%, transparent);
+  color: var(--exp-violet);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  line-height: 1.4;
+
+  &:hover {
+    color: var(--exp-violet);
+    border-color: var(--exp-violet);
+  }
+}
+
+// ── Folder/tag listings — tags on their own row under the title ─
+li.section-li > .section {
+  grid-template-columns: fit-content(8em) 1fr;
+  grid-template-areas:
+    "meta desc"
+    "meta tags";
+
+  & > .meta {
+    grid-area: meta;
+  }
+
+  & > .desc {
+    grid-area: desc;
+  }
+
+  & > .tags {
+    grid-area: tags;
+    justify-content: flex-start;
+    margin-top: 0.35rem;
+    padding-left: 0;
+  }
+}
+
+// ── Content meta ───────────────────────────────────────────────
+.content-meta {
+  font-family: var(--headerFont);
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--gray);
+}
+
+// ── Blockquote ─────────────────────────────────────────────────
+blockquote {
+  border-left: 2px solid var(--exp-border-2);
+  background: rgba(255, 255, 255, 0.025);
+  padding: 0.4rem 0 0.4rem 1rem;
+  border-radius: 0 0.65rem 0.65rem 0;
+}
+
+// ── Popovers ───────────────────────────────────────────────────
+.popover > .popover-inner {
+  border-color: var(--exp-border);
+  border-radius: 0.9rem;
+  background-color: var(--exp-surface);
+  box-shadow:
+    0 14px 42px rgba(0, 0, 0, 0.45),
+    0 0 24px rgba(212, 176, 80, 0.05);
+}
+
+// ── Footer as field dispatch ───────────────────────────────────
+.page > #quartz-body footer {
+  text-align: center;
+  font-family: var(--headerFont);
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  position: relative;
+  padding-top: 1.5rem;
+  opacity: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--exp-gold-glow) 30%,
+      var(--exp-gold-glow) 70%,
+      transparent
+    );
+  }
+
+  p {
+    color: var(--gray);
+  }
+
+  & ul {
+    justify-content: center;
+  }
+}
